@@ -1,4 +1,4 @@
 {
   "{src,apps,libs,test}/**/*.ts": ["eslint"],
-  "./**/*.{ts,js,json,rc}": ["prettier"]
+  "./**/*.{ts,js,json,*rc}": ["prettier"]
 }
