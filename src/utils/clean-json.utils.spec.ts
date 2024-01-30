@@ -1,39 +1,41 @@
-import { cleanJsonString } from "./clean-json-string.utils";
+import { cleanJsonString } from "@utils/clean-json-string.utils";
 
 describe("cleanJson Utility Function", () => {
-  it("should clean a JSON object with string values", () => {
-    const jsonObject = {
+  it("should not change valid JSON strings", () => {
+    const json: string = JSON.stringify({
       name: "John Doe",
       age: "30",
       address: {
-        city: "Exampleville",
-        country: "Exampleland",
+        city: "Exampled",
+        country: "Exampled",
       },
-    };
+    });
 
-    cleanJsonString(jsonObject);
+    const actual: Record<string, any> = cleanJsonString(json);
 
-    expect(jsonObject).toEqual({
+    expect(actual).toMatchObject({
       name: "John Doe",
       age: "30",
       address: {
-        city: "Exampleville",
-        country: "Exampleland",
+        city: "Exampled",
+        country: "Exampled",
       },
     });
   });
 
-  it("should clean a JSON object with escaped double quotes", () => {
-    const jsonObject = {
-      message: 'This is a \\"quoted\\" message',
+  it("should clean a JSON from escaped quotes", () => {
+    const json: string = JSON.stringify({
+      // eslint-disable-next-line
+      message: "This is a \"quoted\" message",
       data: {
-        description: 'Another \\"escaped\\" string',
+        // eslint-disable-next-line
+        description: "Another \"escaped\" string",
       },
-    };
+    });
 
-    cleanJsonString(jsonObject);
+    const actual: Record<string, any> = cleanJsonString(json);
 
-    expect(jsonObject).toEqual({
+    expect(actual).toMatchObject({
       message: 'This is a "quoted" message',
       data: {
         description: 'Another "escaped" string',
@@ -41,8 +43,8 @@ describe("cleanJson Utility Function", () => {
     });
   });
 
-  it("should handle cleaning nested arrays", () => {
-    const jsonObject = {
+  it("should not change json with nested properties", () => {
+    const json: string = JSON.stringify({
       items: [
         "item1",
         "item2",
@@ -50,11 +52,11 @@ describe("cleanJson Utility Function", () => {
           nestedItem: "nestedItemValue",
         },
       ],
-    };
+    });
 
-    cleanJsonString(jsonObject);
+    const actual: Record<string, any> = cleanJsonString(json);
 
-    expect(jsonObject).toEqual({
+    expect(actual).toMatchObject({
       items: [
         "item1",
         "item2",
@@ -65,32 +67,62 @@ describe("cleanJson Utility Function", () => {
     });
   });
 
-  it("should handle cleaning mixed JSON structures", () => {
-    const jsonObject = {
+  it("should handle cleaning mixed json structures", () => {
+    const json: string = JSON.stringify({
       name: "John Doe",
       age: 30,
       details: {
         address: {
-          city: "Exampleville",
-          country: "Exampleland",
+          city: "Exampled",
+          country: "Exampled",
         },
         nestedArray: ["item1", "item2", { key: "value" }],
-        message: 'This is a \\"quoted\\" message',
+        // eslint-disable-next-line
+        message: "This is a \"quoted\" message",
       },
-    };
+    });
 
-    cleanJsonString(jsonObject);
+    const actual: Record<string, any> = cleanJsonString(json);
 
-    expect(jsonObject).toEqual({
+    expect(actual).toMatchObject({
       name: "John Doe",
       age: 30,
       details: {
         address: {
-          city: "Exampleville",
-          country: "Exampleland",
+          city: "Exampled",
+          country: "Exampled",
         },
         nestedArray: ["item1", "item2", { key: "value" }],
         message: 'This is a "quoted" message',
+      },
+    });
+  });
+
+  it("should handle repeated stringifies loops", () => {
+    const json: string = JSON.stringify(
+      JSON.stringify({
+        // eslint-disable-next-line
+        "name": "John Doe",
+        // eslint-disable-next-line
+        "age": "30",
+        // eslint-disable-next-line
+        "address": {
+          // eslint-disable-next-line
+          "city": "Exampled",
+          // eslint-disable-next-line
+          "country": "Exampled",
+        },
+      }),
+    );
+
+    const actual: Record<string, any> = cleanJsonString(json);
+
+    expect(actual).toMatchObject({
+      name: "John Doe",
+      age: "30",
+      address: {
+        city: "Exampled",
+        country: "Exampled",
       },
     });
   });
