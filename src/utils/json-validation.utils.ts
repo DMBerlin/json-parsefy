@@ -7,4 +7,5 @@ export const isJsonParsable = (json: string | object): boolean => {
   } catch {
     return false;
   }
+  return false;
 };
