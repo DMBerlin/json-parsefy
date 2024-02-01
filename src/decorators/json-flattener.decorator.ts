@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from "class-transformer";
-import { cleanJsonString } from "@utils/clean-json-string.utils";
+import { cleanJsonString } from "@utils/json-string-cleaner.utils";
 
 export function JSONFlattener(): PropertyDecorator {
   return Transform((params: TransformFnParams) => {
