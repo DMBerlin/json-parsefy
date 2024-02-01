@@ -1,4 +1,4 @@
-import { cleanJsonString } from "@utils/clean-json-string.utils";
+import { cleanJsonString } from "@utils/json-string-cleaner.utils";
 
 describe("cleanJson Utility Function", () => {
   it("should not change valid JSON strings", () => {
@@ -26,10 +26,10 @@ describe("cleanJson Utility Function", () => {
   it("should clean a JSON from escaped quotes", () => {
     const json: string = JSON.stringify({
       // eslint-disable-next-line
-      message: "This is a \"quoted\" message",
+      message: 'This is a "quoted" message',
       data: {
         // eslint-disable-next-line
-        description: "Another \"escaped\" string",
+        description: 'Another "escaped" string',
       },
     });
 
@@ -78,7 +78,7 @@ describe("cleanJson Utility Function", () => {
         },
         nestedArray: ["item1", "item2", { key: "value" }],
         // eslint-disable-next-line
-        message: "This is a \"quoted\" message",
+        message: 'This is a "quoted" message',
       },
     });
 
@@ -102,15 +102,15 @@ describe("cleanJson Utility Function", () => {
     const json: string = JSON.stringify(
       JSON.stringify({
         // eslint-disable-next-line
-        "name": "John Doe",
+        name: "John Doe",
         // eslint-disable-next-line
-        "age": "30",
+        age: "30",
         // eslint-disable-next-line
-        "address": {
+        address: {
           // eslint-disable-next-line
-          "city": "Exampled",
+          city: "Exampled",
           // eslint-disable-next-line
-          "country": "Exampled",
+          country: "Exampled",
         },
       }),
     );
