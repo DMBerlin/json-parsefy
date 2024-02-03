@@ -1,9 +1,11 @@
-export function cleanJsonString(result: string): Record<string, any> {
-  try {
-    while (typeof (result = JSON.parse(result)) === "string") {}
-    return result;
-  } catch (error) {
-    // Handle parsing errors here
-    return {};
+import { isJsonParsable } from "@utils/json-data-validation.utils";
+
+export function cleanJsonString(
+  result: string | Record<string, any>,
+): Record<string, any> {
+  if (isJsonParsable(result)) {
+    return cleanJsonString(JSON.parse(result as string));
+  } else {
+    return result as Record<string, any>;
   }
 }
