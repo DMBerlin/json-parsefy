@@ -43,7 +43,12 @@ describe("Tree Json Parsing", () => {
           city: "Exampled",
           country: "Exampled",
         },
-        nestedArray: ["item1", "item2", { key: "value" }],
+        nestedArray: [
+          "item1",
+          "item2",
+          // eslint-disable-next-line
+          "{ \"key\": \"value\", \"data\": \"{ \\\"nested\\\": \\\"nested value\\\" }\" }",
+        ],
         // eslint-disable-next-line
         message: "This is a \"quoted\" message",
       },
@@ -57,7 +62,11 @@ describe("Tree Json Parsing", () => {
           city: "Exampled",
           country: "Exampled",
         },
-        nestedArray: ["item1", "item2", { key: "value" }],
+        nestedArray: [
+          "item1",
+          "item2",
+          { key: "value", data: { nested: "nested value" } },
+        ],
         // eslint-disable-next-line
         message: "This is a \"quoted\" message",
       },
