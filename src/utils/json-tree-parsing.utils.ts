@@ -1,10 +1,10 @@
 import { isJsonParsable } from "@utils/json-data-validation.utils";
 import { cleanJsonString } from "@utils/json-string-cleaner.utils";
 
-export const treeParsing = (jsonString: string): Record<string, any> => {
+export function treeParsing(jsonString: string): Record<string, any> {
   const bfs = (node: Record<string, any>): void => {
     for (const key in node) {
-      if (typeof node[key] === "string" && isJsonParsable(node[key])) {
+      if (isJsonParsable(node[key])) {
         node[key] = cleanJsonString(node[key]);
         bfs(node[key]);
       } else if (typeof node[key] === "object") {
@@ -16,4 +16,4 @@ export const treeParsing = (jsonString: string): Record<string, any> => {
   const jsonData: Record<string, any> = cleanJsonString(jsonString);
   bfs(jsonData);
   return jsonData;
-};
+}
