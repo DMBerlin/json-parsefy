@@ -1,5 +1,5 @@
 {
-  "name": "json-string-flattener",
+  "name": "json-parser",
   "version": "1.0.0",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DMBerlin/json-string-flattener.git"
+    "url": "git+https://github.com/DMBerlin/json-parser.git"
   },
   "keywords": [
     "typescript",
@@ -30,9 +30,9 @@
   "author": "Daniel Marinho",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DMBerlin/json-string-flattener/issues"
+    "url": "https://github.com/DMBerlin/json-parser/issues"
   },
-  "homepage": "https://github.com/DMBerlin/json-string-flattener#readme",
+  "homepage": "https://github.com/DMBerlin/json-parser#readme",
   "devDependencies": {
     "@commitlint/cli": "^18.6.0",
     "@commitlint/config-conventional": "^18.6.0",
