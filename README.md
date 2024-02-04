@@ -1,4 +1,4 @@
-# JSON-STRING-FLATTENER
+# JSON-PARSER
 This project helps with flattening JSON strings who have repeatedly through a stringed process.
 It applies a `JSONParse` method on a stringify data and repeat the process through each node, flattening it until it becomes a JSON object.
 
@@ -11,7 +11,7 @@ const before: string = "{\"name\": \"John Doe\",\"age\": \"30\",\"location\": {\
 Use `treeParsing` to do a BFS JSON parse on the string.
 
 ```ts
-import { treeParsing } from "json-string-flattener";
+import { treeParsing } from "json-parser";
 const after = treeParsing(before);
 ```
 
