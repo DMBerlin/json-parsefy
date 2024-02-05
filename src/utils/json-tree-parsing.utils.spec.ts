@@ -67,7 +67,6 @@ describe("Tree Json Parsing", () => {
           "item2",
           { key: "value", data: { nested: "nested value" } },
         ],
-        // eslint-disable-next-line
         message: 'This is a "quoted" message',
       },
     });

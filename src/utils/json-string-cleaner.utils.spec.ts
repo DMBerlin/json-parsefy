@@ -100,19 +100,16 @@ describe("cleanJson Utility Function", () => {
 
   it("should handle repeated stringifies loops", () => {
     const json: string = JSON.stringify(
-      JSON.stringify({
-        // eslint-disable-next-line
-        name: "John Doe",
-        // eslint-disable-next-line
-        age: "30",
-        // eslint-disable-next-line
-        address: {
-          // eslint-disable-next-line
-          city: "Exampled",
-          // eslint-disable-next-line
-          country: "Exampled",
-        },
-      }),
+      JSON.stringify(
+        JSON.stringify({
+          name: "John Doe",
+          age: "30",
+          address: {
+            city: "Exampled",
+            country: "Exampled",
+          },
+        }),
+      ),
     );
 
     const actual: Record<string, any> = cleanJsonString(json);
