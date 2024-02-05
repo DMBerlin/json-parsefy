@@ -26,9 +26,11 @@ describe("cleanJson Utility Function", () => {
   it("should clean a JSON from escaped quotes", () => {
     const json: string = JSON.stringify({
       // eslint-disable-next-line
+      // prettier-ignore
       message: "This is a \"quoted\" message",
       data: {
         // eslint-disable-next-line
+        // prettier-ignore
         description: "Another \"quoted\" string",
       },
     });
@@ -78,6 +80,7 @@ describe("cleanJson Utility Function", () => {
         },
         nestedArray: ["item1", "item2", { key: "value" }],
         // eslint-disable-next-line
+        // prettier-ignore
         message: "This is a \"quoted\" message",
       },
     });
