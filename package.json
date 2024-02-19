@@ -51,8 +51,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "class-transformer": "^0.5.1",
-    "typeorm": "^0.3.19"
+    "class-transformer": "^0.5.1"
   },
   "jest": {
     "moduleNameMapper": {
