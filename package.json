@@ -1,5 +1,5 @@
 {
-  "name": "@dmberlin/json-parser",
+  "name": "json-parser",
   "version": "1.0.0",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
