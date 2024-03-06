@@ -1,4 +1,4 @@
-# JSON-PARSER
+# JSON-PARSEFY
 This project helps with flattening JSON strings who have repeatedly through a stringed process.
 It applies a `JSONParse` method on a stringify data and repeat the process through each node, flattening it until it becomes a JSON object.
 
