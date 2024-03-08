@@ -1,2 +1,7 @@
-export { JSONFlattener } from "@decorators/json-flattener.decorator";
-export { treeParsing } from "@utils/json-tree-parsing.utils";
+import { treeParsing } from "@utils/json-tree-parsing.utils";
+
+const Parsefy = {
+  this: treeParsing,
+};
+
+export { Parsefy };
