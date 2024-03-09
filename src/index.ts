@@ -1,7 +1,7 @@
-import { treeParsing } from "@utils/json-tree-parsing.utils";
+import { bfsParsing } from "@/utils/bfs-parsing.utils";
 
 const Parsefy = {
-  this: treeParsing,
+  this: bfsParsing,
 };
 
 export { Parsefy };

@@ -1,4 +1,4 @@
-import { treeParsing } from "@utils/json-tree-parsing.utils";
+import { bfsParsing } from "@/utils/bfs-parsing.utils";
 
 describe("Tree Json Parsing", () => {
   it("should work on normal json string data", () => {
@@ -11,7 +11,7 @@ describe("Tree Json Parsing", () => {
       },
     };
 
-    expect(treeParsing(JSON.stringify(data))).toMatchObject(data);
+    expect(bfsParsing(JSON.stringify(data))).toMatchObject(data);
   });
 
   it("should work with different valid data types", () => {
@@ -31,7 +31,7 @@ describe("Tree Json Parsing", () => {
       ],
     };
 
-    expect(treeParsing(JSON.stringify(data))).toMatchObject(data);
+    expect(bfsParsing(JSON.stringify(data))).toMatchObject(data);
   });
 
   it("should unescape escaped strings", () => {
@@ -56,7 +56,7 @@ describe("Tree Json Parsing", () => {
       },
     };
 
-    expect(treeParsing(JSON.stringify(data))).toMatchObject({
+    expect(bfsParsing(JSON.stringify(data))).toMatchObject({
       name: "John Doe",
       age: 30,
       details: {
@@ -80,7 +80,7 @@ describe("Tree Json Parsing", () => {
       // prettier-ignore
       "{\"name\": \"John Doe\",\"age\": \"30\",\"location\": {\"city\": \"Some City\",\"state\": \"Some State\",\"geo\": \"{\\\"lat\\\": \\\"40000\\\",\\\"lng\\\": \\\"40000\\\"}\"},\"rules\": {\"localWork\": \"true\",\"onlineWork\": \"true\",\"applications\": {\"admin\": \"true\",\"time\": \"no-time\"}},\"availability\": \"{\\\"online\\\": \\\"true\\\"}\"}";
 
-    expect(treeParsing(data)).toMatchObject({
+    expect(bfsParsing(data)).toMatchObject({
       name: "John Doe",
       age: 30,
       location: {
