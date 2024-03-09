@@ -1,4 +1,4 @@
-import { cleanJsonString } from "@utils/json-string-cleaner.utils";
+import { recursiveParsing } from "@/utils/recursive-parsing.utils";
 
 describe("cleanJson Utility Function", () => {
   it("should not change valid JSON strings", () => {
@@ -11,7 +11,7 @@ describe("cleanJson Utility Function", () => {
       },
     });
 
-    const actual: Record<string, any> = cleanJsonString(json);
+    const actual: Record<string, any> = recursiveParsing(json);
 
     expect(actual).toMatchObject({
       name: "John Doe",
@@ -35,7 +35,7 @@ describe("cleanJson Utility Function", () => {
       },
     });
 
-    const actual: Record<string, any> = cleanJsonString(json);
+    const actual: Record<string, any> = recursiveParsing(json);
 
     expect(actual).toMatchObject({
       message: 'This is a "quoted" message',
@@ -56,7 +56,7 @@ describe("cleanJson Utility Function", () => {
       ],
     });
 
-    const actual: Record<string, any> = cleanJsonString(json);
+    const actual: Record<string, any> = recursiveParsing(json);
 
     expect(actual).toMatchObject({
       items: [
@@ -85,7 +85,7 @@ describe("cleanJson Utility Function", () => {
       },
     });
 
-    const actual: Record<string, any> = cleanJsonString(json);
+    const actual: Record<string, any> = recursiveParsing(json);
 
     expect(actual).toMatchObject({
       name: "John Doe",
@@ -115,7 +115,7 @@ describe("cleanJson Utility Function", () => {
       ),
     );
 
-    const actual: Record<string, any> = cleanJsonString(json);
+    const actual: Record<string, any> = recursiveParsing(json);
 
     expect(actual).toMatchObject({
       name: "John Doe",
