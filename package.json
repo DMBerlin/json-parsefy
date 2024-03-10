@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DMBerlin/json-parser.git"
+    "url": "git+https://github.com/DMBerlin/json-parsefy.git"
   },
   "keywords": [
     "typescript",
@@ -30,9 +30,9 @@
   "author": "Daniel Marinho",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DMBerlin/json-parser/issues"
+    "url": "https://github.com/DMBerlin/json-parsefy/issues"
   },
-  "homepage": "https://github.com/DMBerlin/json-parser#readme",
+  "homepage": "https://github.com/DMBerlin/json-parsefy#readme",
   "devDependencies": {
     "@commitlint/cli": "^18.6.0",
     "@commitlint/config-conventional": "^18.6.0",
