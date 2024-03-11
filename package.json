@@ -1,6 +1,6 @@
 {
   "name": "json-parsefy",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,6 +48,7 @@
     "prettier": "^3.2.4",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
@@ -55,7 +56,6 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/../src/$1",
       "^@types/(.*)$": "<rootDir>/../src/types/$1",
       "^@utils/(.*)$": "<rootDir>/../src/utils/$1",
       "^@decorators/(.*)$": "<rootDir>/../src/decorators/$1"
