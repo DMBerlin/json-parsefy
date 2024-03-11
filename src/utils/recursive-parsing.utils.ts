@@ -1,4 +1,4 @@
-import { isJsonParsable } from "@/utils/data-validation.utils";
+import { isJsonParsable } from "../utils/data-validation.utils";
 
 export function recursiveParsing(
   result: string | Record<string, any>,

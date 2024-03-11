@@ -1,4 +1,4 @@
-import { bfsParsing } from "@/utils/bfs-parsing.utils";
+import { bfsParsing } from "../utils/bfs-parsing.utils";
 
 describe("Tree Json Parsing", () => {
   it("should work on normal json string data", () => {
