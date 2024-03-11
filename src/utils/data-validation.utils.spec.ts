@@ -1,4 +1,4 @@
-import { isJsonParsable } from "@/utils/data-validation.utils";
+import { isJsonParsable } from "../utils/data-validation.utils";
 
 describe("isJsonParsable", () => {
   it("should return true for json strings", () => {

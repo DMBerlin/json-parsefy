@@ -1,5 +1,5 @@
-import { isJsonParsable } from "@/utils/data-validation.utils";
-import { recursiveParsing } from "@/utils/recursive-parsing.utils";
+import { isJsonParsable } from "../utils/data-validation.utils";
+import { recursiveParsing } from "../utils/recursive-parsing.utils";
 
 export function bfsParsing(jsonString: string): Record<string, any> {
   const bfs = (node: Record<string, any>): void => {

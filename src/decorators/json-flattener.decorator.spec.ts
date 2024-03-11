@@ -1,5 +1,5 @@
-import { JSONFlattener } from "@decorators/json-flattener.decorator";
 import { plainToClass } from "class-transformer";
+import { JSONFlattener } from "../decorators/json-flattener.decorator";
 
 class TestClass {
   @JSONFlattener()
