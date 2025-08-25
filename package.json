@@ -61,14 +61,6 @@
     "!dist/**/*.tsbuildinfo",
     "README.md"
   ],
-  "peerDependencies": {
-    "class-transformer": "^0.5.1"
-  },
-  "peerDependenciesMeta": {
-    "class-transformer": {
-      "optional": true
-    }
-  },
   "jest": {
     "moduleFileExtensions": [
       "js",

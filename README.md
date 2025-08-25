@@ -118,36 +118,6 @@ console.log(parsed);
 - **Log Processing** - Extract structured data from logs
 - **Data Migration** - Transform legacy data formats
 
-## 📋 Advanced Usage
-
-### Class Transformer Integration (Optional)
-
-For advanced use cases with `class-transformer`:
-
-```bash
-npm install json-parsefy class-transformer
-```
-
-```typescript
-import { plainToClass } from "class-transformer";
-import { Parsefy, JSONFlattener } from "json-parsefy";
-
-class UserData {
-  @JSONFlattener()
-  profile: any;
-
-  name: string;
-}
-
-const rawData = {
-  name: "John",
-  profile: '{"age": 25, "settings": "{\\"theme\\": \\"dark\\"}"}',
-};
-
-const user = plainToClass(UserData, rawData);
-// user.profile is now: { age: 25, settings: { theme: "dark" } }
-```
-
 ### Error Handling
 
 ```typescript
