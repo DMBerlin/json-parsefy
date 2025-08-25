@@ -1,0 +1,28 @@
+# Development files
+src/
+coverage/
+.github/
+node_modules/
+
+# Config files
+tsconfig*.json
+.eslintrc.js
+.husky/
+.git/
+.gitignore
+
+# Test files
+**/*.spec.js
+**/*.spec.d.ts
+**/*.spec.js.map
+
+# Build artifacts
+*.tsbuildinfo
+
+# Lock files (users should use their preferred package manager)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Documentation that's not needed in package
+README.md

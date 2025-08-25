@@ -1,6 +1,6 @@
 {
   "name": "json-parsefy",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,29 +50,54 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
+  "files": [
+    "dist/**/*",
+    "!dist/**/*.spec.*",
+    "!dist/**/*.tsbuildinfo",
+    "README.md"
+  ],
   "dependencies": {
     "class-transformer": "^0.5.1"
   },
   "jest": {
-    "moduleNameMapper": {
-      "^@types/(.*)$": "<rootDir>/../src/types/$1",
-      "^@utils/(.*)$": "<rootDir>/../src/utils/$1",
-      "^@decorators/(.*)$": "<rootDir>/../src/decorators/$1"
-    },
+    "rootDir": ".",
     "moduleFileExtensions": [
       "js",
       "json",
       "ts"
     ],
-    "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "coverageDirectory": "coverage",
+    "testEnvironment": "node",
+    "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "src/**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__fixtures__/",
+      "/__mocks__/",
+      "/__tests__/",
+      "/interfaces/",
+      "/types/",
+      "/index.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "^@lib-types/(.*)$": "<rootDir>/src/types/$1",
+      "^@utils/(.*)$": "<rootDir>/src/utils/$1",
+      "^@decorators/(.*)$": "<rootDir>/src/decorators/$1"
+    }
   }
 }
