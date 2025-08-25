@@ -56,8 +56,13 @@
     "!dist/**/*.tsbuildinfo",
     "README.md"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "class-transformer": "^0.5.1"
+  },
+  "peerDependenciesMeta": {
+    "class-transformer": {
+      "optional": true
+    }
   },
   "jest": {
     "rootDir": ".",
