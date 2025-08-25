@@ -1,5 +1,6 @@
 import { plainToClass } from "class-transformer";
-import { JSONFlattener } from "../decorators/json-flattener.decorator";
+import { JSONFlattener } from "@decorators/json-flattener.decorator";
+import * as bfsParsingUtils from "@utils/bfs-parsing.utils";
 
 class TestClass {
   @JSONFlattener()
@@ -76,5 +77,22 @@ describe("JSONFlattener Decorator", () => {
     });
 
     expect(testClass.jsonProperty).toMatchObject(unescapedJsonString);
+  });
+
+  it("should handle errors thrown by bfsParsing", () => {
+    const mockError = { message: "Mock error", code: "TEST_ERROR" };
+    const spy = jest
+      .spyOn(bfsParsingUtils, "bfsParsing")
+      .mockImplementation(() => {
+        throw mockError;
+      });
+
+    expect(() => {
+      plainToClass(TestClass, {
+        jsonProperty: '{"valid": "json"}',
+      });
+    }).toThrow(JSON.stringify(mockError));
+
+    spy.mockRestore();
   });
 });

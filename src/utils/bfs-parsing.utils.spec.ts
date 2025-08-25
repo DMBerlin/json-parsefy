@@ -1,4 +1,4 @@
-import { bfsParsing } from "../utils/bfs-parsing.utils";
+import { bfsParsing } from "@utils/bfs-parsing.utils";
 
 describe("Tree Json Parsing", () => {
   it("should work on normal json string data", () => {
@@ -95,5 +95,11 @@ describe("Tree Json Parsing", () => {
       },
       availability: { online: true },
     });
+  });
+
+  it("should return undefined for invalid JSON strings", () => {
+    const invalidJsonString = "not a valid json string";
+
+    expect(bfsParsing(invalidJsonString)).toBeUndefined();
   });
 });

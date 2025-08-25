@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from "class-transformer";
-import { bfsParsing } from "../utils/bfs-parsing.utils";
+import { bfsParsing } from "@utils/bfs-parsing.utils";
 
 export function JSONFlattener(): PropertyDecorator {
   return Transform((params: TransformFnParams) => {

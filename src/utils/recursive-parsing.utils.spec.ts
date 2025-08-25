@@ -1,4 +1,4 @@
-import { recursiveParsing } from "../utils/recursive-parsing.utils";
+import { recursiveParsing } from "@utils/recursive-parsing.utils";
 
 describe("cleanJson Utility Function", () => {
   it("should not change valid JSON strings", () => {

@@ -1,4 +1,4 @@
-import { bfsParsing } from "./utils/bfs-parsing.utils";
+import { bfsParsing } from "@utils/bfs-parsing.utils";
 
 const Parsefy = {
   this: bfsParsing,
