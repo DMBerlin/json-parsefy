@@ -1,188 +1,218 @@
-# JSON-PARSEFY
+# JSON-Parsefy
 
-[![CI](https://github.com/DMBerlin/json-parsefy/actions/workflows/ci.yml/badge.svg)](https://github.com/DMBerlin/json-parsefy/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/DMBerlin/json-parsefy/actions/workflows/codeql.yml/badge.svg)](https://github.com/DMBerlin/json-parsefy/actions/workflows/codeql.yml)
 [![npm version](https://badge.fury.io/js/json-parsefy.svg)](https://badge.fury.io/js/json-parsefy)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
-A powerful TypeScript library that corrects malformed JSON strings that have been through multiple stringify operations. It intelligently parses nested stringified JSON data using BFS (Breadth-First Search) algorithms to restore proper JSON structure.
+**Fix malformed JSON strings that have been through multiple stringify operations.**
 
-## ✨ Features
+JSON-Parsefy intelligently parses deeply nested stringified JSON data, automatically converting escaped strings back to proper JSON objects and arrays. Perfect for handling data from APIs, databases, or any source that has been over-stringified.
 
-- 🔄 **Smart JSON Parsing**: Handles deeply nested stringified JSON data
-- 🌳 **Multiple Parsing Strategies**: BFS, recursive, and tree-based parsing
-- 🛡️ **Type Safety**: Full TypeScript support with comprehensive type definitions  
-- 🧪 **Well Tested**: Comprehensive test suite with high coverage
-- 🚀 **Production Ready**: CI/CD pipeline with automated testing and releases
-- 📦 **Zero Dependencies**: Lightweight with minimal footprint
+## The Problem
 
-## 📦 Installation
+When JSON data goes through multiple `JSON.stringify()` operations, it becomes deeply escaped and unreadable:
+
+```javascript
+// Original data
+const user = {
+  name: "John Doe",
+  age: 30,
+  location: { city: "New York", geo: { lat: 40.7128, lng: -74.0060 } }
+};
+
+// After multiple stringify operations
+const malformed = "{\"name\":\"John Doe\",\"age\":\"30\",\"location\":\"{\\\"city\\\":\\\"New York\\\",\\\"geo\\\":\\\"{\\\\\\\"lat\\\\\\\":40.7128,\\\\\\\"lng\\\\\\\":-74.0060}\\\"}\"}";
+
+// This fails with JSON.parse()
+JSON.parse(malformed); // ❌ Error: Unexpected token
+```
+
+## The Solution
+
+JSON-Parsefy automatically detects and fixes these issues:
+
+```javascript
+import { Parsefy } from "json-parsefy";
+
+const fixed = Parsefy.this(malformed);
+console.log(fixed);
+// ✅ { name: "John Doe", age: 30, location: { city: "New York", geo: { lat: 40.7128, lng: -74.0060 } } }
+```
+
+## Installation
 
 ```bash
-# Using npm
 npm install json-parsefy
-
-# Using yarn
+# or
 yarn add json-parsefy
-
-# Using pnpm
+# or
 pnpm add json-parsefy
 ```
 
-## 🚀 Quick Start
+## Usage
+
+### Basic Usage
 
 ```typescript
 import { Parsefy } from "json-parsefy";
 
-const malformedJson = "{\"name\": \"John Doe\",\"age\": \"30\",\"location\": {\"city\": \"Some City\",\"state\": \"Some State\",\"geo\": \"{\\\"lat\\\": \\\"40000\\\",\\\"lng\\\": \\\"40000\\\"}\"},\"rules\": {\"localWork\": \"true\",\"onlineWork\": \"true\",\"applications\": {\"admin\": \"true\",\"time\": \"no-time\"}},\"availability\": \"{\\\"online\\\": \\\"true\\\"}\"}";
+const malformedJson = `{"name":"John","data":"{\\"items\\":[1,2,3],\\"active\\":true}"}`;
 
-// Parse the malformed JSON
 const result = Parsefy.this(malformedJson);
+// Result: { name: "John", data: { items: [1,2,3], active: true } }
+```
 
-console.log(result);
-// Output:
-// {
-//   name: "John Doe",
-//   age: 30,
-//   location: {
-//     city: "Some City",
-//     state: "Some State",
-//     geo: { lat: 40000, lng: 40000 }
-//   },
-//   rules: {
-//     localWork: true,
-//     onlineWork: true,
-//     applications: { admin: true, time: "no-time" }
-//   },
-//   availability: { online: true }
+### With Class Decorator
+
+For automatic parsing in class properties:
+
+```typescript
+import { plainToClass } from "class-transformer";
+import { JSONFlattener } from "json-parsefy";
+
+class User {
+  @JSONFlattener()
+  profile: any; // Will be automatically parsed if it's a string
+}
+
+const userData = {
+  profile: '{"name":"John","settings":"{\\"theme\\":\\"dark\\"}"}'
+};
+
+const user = plainToClass(User, userData);
+console.log(user.profile);
+// Result: { name: "John", settings: { theme: "dark" } }
+```
+
+## Real-World Examples
+
+### API Response Cleanup
+
+```typescript
+// Common scenario: API returns over-stringified data
+const apiResponse = `{
+  "user": "{\\"id\\":123,\\"name\\":\\"John\\",\\"preferences\\":\\"{\\\\\\"theme\\\\\\":\\\\\\"dark\\\\\\"}\\"}",
+  "status": "success"
+}`;
+
+const cleanData = Parsefy.this(apiResponse);
+// Result: { user: { id: 123, name: "John", preferences: { theme: "dark" } }, status: "success" }
+```
+
+### Database Field Parsing
+
+```typescript
+// Database stores JSON as escaped strings
+const dbRecord = {
+  id: 1,
+  metadata: '{"tags":"[\\"urgent\\",\\"important\\"]","config":"{\\"notifications\\":true}"}'
+};
+
+const parsed = Parsefy.this(JSON.stringify(dbRecord));
+// Result: { id: 1, metadata: { tags: ["urgent", "important"], config: { notifications: true } } }
+```
+
+### Complex Nested Data
+
+```typescript
+const complexData = `{
+  "user": "{\\"profile\\":\\"{\\\\\\"name\\\\\\":\\\\\\"John\\\\\\",\\\\\\"settings\\\\\\":\\\\\\"{\\\\\\\\\\\\\\"theme\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"dark\\\\\\\\\\\\\\"}\\\\\\"}\\"}",
+  "permissions": "{\\"admin\\":true,\\"roles\\":\\"[\\\\\\"user\\\\\\",\\\\\\"editor\\\\\\"]\\"}"
+}`;
+
+const result = Parsefy.this(complexData);
+// Result: { 
+//   user: { profile: { name: "John", settings: { theme: "dark" } } },
+//   permissions: { admin: true, roles: ["user", "editor"] }
 // }
 ```
 
-## 🛠️ Development
+## Features
 
-### Prerequisites
+- **🔄 Smart Detection**: Automatically identifies stringified JSON within strings
+- **🌳 Deep Parsing**: Handles unlimited nesting levels using BFS algorithm
+- **🛡️ Type Safe**: Full TypeScript support with proper type definitions
+- **⚡ Performance**: Optimized parsing with minimal overhead
+- **🎯 Decorator Support**: Seamless integration with class-transformer
+- **🧪 Well Tested**: Comprehensive test coverage with edge cases
+- **📦 Zero Dependencies**: Lightweight with minimal footprint
 
-- Node.js 18+ (recommended: use the version specified in `.nvmrc`)
-- Yarn (this project uses Yarn for package management)
+## How It Works
+
+JSON-Parsefy uses a two-step process:
+
+1. **Recursive Parsing**: Continuously parses stringified JSON until no more parsing is possible
+2. **BFS Traversal**: Uses breadth-first search to systematically process all nested objects and arrays
+
+This approach ensures that even deeply nested and multiply-escaped JSON strings are properly restored to their original structure.
+
+## API Reference
+
+### `Parsefy.this(jsonString: string): Record<string, any>`
+
+Main parsing function that takes a malformed JSON string and returns a properly structured object.
+
+**Parameters:**
+- `jsonString`: The malformed JSON string to parse
+
+**Returns:**
+- Properly structured JavaScript object
+
+**Throws:**
+- Error if the input is not a valid JSON string
+
+### `@JSONFlattener()`
+
+Class property decorator that automatically parses stringified JSON values.
+
+**Usage:**
+```typescript
+class MyClass {
+  @JSONFlattener()
+  jsonField: any;
+}
+```
+
+## Development
 
 ### Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/DMBerlin/json-parsefy.git
 cd json-parsefy
-
-# Install dependencies
-yarn install
-
-# Set up development environment
-make dev-setup
+pnpm install
 ```
 
-### Available Scripts
+### Scripts
 
 ```bash
-# Development
-yarn build          # Build the project
-yarn build:prod     # Build for production
-yarn clean          # Clean build artifacts
-
-# Testing
-yarn test           # Run tests
-yarn test:watch     # Run tests in watch mode
-yarn test:cov       # Run tests with coverage
-
-# Code Quality
-yarn lint           # Run linter with auto-fix
-yarn lint:check     # Run linter without fixing
-yarn format         # Format code with Prettier
-yarn format:check   # Check code formatting
-
-# Release
-yarn release        # Create patch release
-yarn release:minor  # Create minor release
-yarn release:major  # Create major release
+pnpm build          # Build the project
+pnpm test           # Run tests
+pnpm test:watch     # Run tests in watch mode
+pnpm test:cov       # Run tests with coverage
+pnpm lint           # Run linter
 ```
 
-### Using Makefile
+## Contributing
 
-This project includes a comprehensive Makefile for common development tasks:
-
-```bash
-make help           # Show all available commands
-make install        # Install dependencies
-make test           # Run tests
-make check          # Run all quality checks
-make ci             # Simulate CI pipeline locally
-make clean          # Clean build artifacts
-```
-
-## 🚀 CI/CD Pipeline
-
-This project uses GitHub Actions for continuous integration and deployment:
-
-### Workflows
-
-- **CI Pipeline** (`ci.yml`): Runs on every push and PR
-  - Tests on Node.js 18.x, 20.x, and 22.x
-  - Linting and code formatting checks
-  - Security auditing
-  - Code coverage reporting
-  
-- **Release Pipeline** (`release.yml`): Automated releases
-  - Version bumping
-  - Changelog generation
-  - NPM publishing
-  - GitHub releases
-
-- **CodeQL Analysis** (`codeql.yml`): Security scanning
-  - Static analysis for vulnerabilities
-  - Runs weekly and on code changes
-
-### Dependabot
-
-Automated dependency updates are configured for:
-- NPM packages (weekly updates)
-- GitHub Actions (weekly updates)
-- Grouped updates for development dependencies
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Workflow
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run tests and linting (`make check`)
-5. Commit your changes (follows [Conventional Commits](https://conventionalcommits.org/))
+4. Run tests (`pnpm test`)
+5. Commit your changes
 6. Push to your branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
 
-### Commit Message Format
-
-This project uses [Conventional Commits](https://conventionalcommits.org/):
-
-```
-type(scope): description
-
-[optional body]
-
-[optional footer]
-```
-
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-## 📄 License
+## License
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Support
 
-- Inspired by real-world JSON parsing challenges
-- Built with TypeScript for type safety and developer experience
-- Designed for modern JavaScript/TypeScript applications
+- 🐛 [Report Issues](https://github.com/DMBerlin/json-parsefy/issues)
+- 💬 [Discussions](https://github.com/DMBerlin/json-parsefy/discussions)
+- 📧 [Contact](mailto:your-email@example.com)
 
 ---
 
