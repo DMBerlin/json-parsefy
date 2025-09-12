@@ -5,3 +5,4 @@ const Parsefy = {
 };
 
 export { Parsefy };
+export { JSONFlattener } from "./decorators/json-flattener.decorator";

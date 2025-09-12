@@ -61,9 +61,17 @@ const result = Parsefy.this(malformedJson);
 // Result: { name: "John", data: { items: [1,2,3], active: true } }
 ```
 
-### With Class Decorator
+### With Class Decorator (Optional)
 
-For automatic parsing in class properties:
+For automatic parsing in class properties, you can use the decorator feature. This requires installing `class-transformer` as a peer dependency:
+
+```bash
+npm install class-transformer
+# or
+yarn add class-transformer
+# or
+pnpm add class-transformer
+```
 
 ```typescript
 import { plainToClass } from "class-transformer";
@@ -82,6 +90,8 @@ const user = plainToClass(User, userData);
 console.log(user.profile);
 // Result: { name: "John", settings: { theme: "dark" } }
 ```
+
+**Note:** The decorator feature is optional. If you don't install `class-transformer`, the decorator will display a warning and act as a no-op, but your main parsing functionality will still work perfectly.
 
 ## Real-World Examples
 
@@ -132,9 +142,9 @@ const result = Parsefy.this(complexData);
 - **🌳 Deep Parsing**: Handles unlimited nesting levels using BFS algorithm
 - **🛡️ Type Safe**: Full TypeScript support with proper type definitions
 - **⚡ Performance**: Optimized parsing with minimal overhead
-- **🎯 Decorator Support**: Seamless integration with class-transformer
+- **🎯 Optional Decorator Support**: Seamless integration with class-transformer (when installed)
 - **🧪 Well Tested**: Comprehensive test coverage with edge cases
-- **📦 Zero Dependencies**: Lightweight with minimal footprint
+- **📦 Minimal Dependencies**: Lightweight with optional peer dependencies
 
 ## How It Works
 
@@ -162,7 +172,7 @@ Main parsing function that takes a malformed JSON string and returns a properly 
 
 ### `@JSONFlattener()`
 
-Class property decorator that automatically parses stringified JSON values.
+Class property decorator that automatically parses stringified JSON values. Requires `class-transformer` as a peer dependency.
 
 **Usage:**
 ```typescript
@@ -171,6 +181,8 @@ class MyClass {
   jsonField: any;
 }
 ```
+
+**Note:** If `class-transformer` is not installed, the decorator will log a warning and act as a no-op decorator.
 
 ## Development
 
