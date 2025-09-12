@@ -1,31 +1,18 @@
 import { bfsParsing } from "../utils/bfs-parsing.utils";
-
-// Type definitions to avoid importing class-transformer when not available
-type TransformFnParams = {
-  value: any;
-  key: string;
-  obj: any;
-  type: any;
-};
+import { TransformFnParams } from "../types/json-flattener.types";
 
 export function JSONFlattener(): PropertyDecorator {
   let classTransformer: any;
 
   try {
-    // Try to load class-transformer at runtime
     classTransformer = eval('require("class-transformer")');
   } catch (error) {
-    // class-transformer not available
     // eslint-disable-next-line no-console
     console.warn(
       "JSONFlattener decorator requires 'class-transformer' as a peer dependency. " +
         "Install it with: npm install class-transformer",
     );
-
-    // Return a no-op property decorator
-    return function () {
-      // No-op decorator that doesn't transform anything
-    };
+    return function () {};
   }
 
   if (!classTransformer || !classTransformer.Transform) {
@@ -35,9 +22,7 @@ export function JSONFlattener(): PropertyDecorator {
         "Install it with: npm install class-transformer",
     );
 
-    return function () {
-      // No-op decorator that doesn't transform anything
-    };
+    return function () {};
   }
 
   return classTransformer.Transform((params: TransformFnParams) => {
