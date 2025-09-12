@@ -1,27 +1,34 @@
 import { bfsParsing } from "../utils/bfs-parsing.utils";
 import { TransformFnParams } from "../types/json-flattener.types";
 
-export function JSONFlattener(): PropertyDecorator {
-  let classTransformer: any;
-
+// Exported for testing
+export function loadClassTransformer(): any {
   try {
-    classTransformer = eval('require("class-transformer")');
+    return eval('require("class-transformer")');
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      "JSONFlattener decorator requires 'class-transformer' as a peer dependency. " +
-        "Install it with: npm install class-transformer",
-    );
+    return null;
+  }
+}
+
+// Exported for testing
+export function warnMissingDependency(): void {
+  // eslint-disable-next-line no-console
+  console.warn(
+    "JSONFlattener decorator requires 'class-transformer' as a peer dependency. " +
+      "Install it with: npm install class-transformer",
+  );
+}
+
+export function JSONFlattener(): PropertyDecorator {
+  const classTransformer = loadClassTransformer();
+
+  if (!classTransformer) {
+    warnMissingDependency();
     return function () {};
   }
 
-  if (!classTransformer || !classTransformer.Transform) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      "JSONFlattener decorator requires 'class-transformer' as a peer dependency. " +
-        "Install it with: npm install class-transformer",
-    );
-
+  if (!classTransformer.Transform) {
+    warnMissingDependency();
     return function () {};
   }
 
