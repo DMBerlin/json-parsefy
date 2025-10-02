@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.0]
+
+### Bug Fixes
+
+* **release pipeline:** fix version mismatch between package.json and release-please-manifest.json
+* **release pipeline:** ensure proper release workflow triggers
+* **release pipeline:** fix release pipeline configuration
+
+### Chores
+
+* **readme:** update documentation
+* **version:** update version management
+
 ## [1.3.0](https://github.com/DMBerlin/json-parsefy/compare/v1.2.1...v1.3.0) (2025-09-12)
 
 
