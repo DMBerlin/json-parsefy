@@ -1,11 +1,9 @@
 name: Release Workflow
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types:
-      - closed
+      - 'main'
 
 permissions:
   contents: write
@@ -14,11 +12,11 @@ permissions:
   actions: write
 
 jobs:
-  release:
+  release-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Check out code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -54,6 +52,7 @@ jobs:
           manifest-file: .release-please-manifest.json
 
       - name: Publish to npm
+        if: steps.release.outputs.release_created
         run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
