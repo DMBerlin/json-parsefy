@@ -62,7 +62,7 @@ jobs:
           TZ: 'America/Sao_Paulo'
 
       - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           flags: unittests
           name: codecov-umbrella
