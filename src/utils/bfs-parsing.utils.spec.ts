@@ -96,4 +96,33 @@ describe("Tree Json Parsing", () => {
       availability: { online: true },
     });
   });
+
+  it("should return undefined for invalid json strings", () => {
+    expect(bfsParsing("not a json string")).toBeUndefined();
+    expect(bfsParsing("")).toBeUndefined();
+    expect(bfsParsing("{ broken: json }")).toBeUndefined();
+  });
+
+  it("should handle array root json", () => {
+    const arrayData = ["item1", '{"nested": "value"}'];
+    const result = bfsParsing(JSON.stringify(arrayData));
+    expect(result).toEqual(["item1", { nested: "value" }]);
+  });
+
+  it("should return primitive values when root is not an object", () => {
+    expect(bfsParsing(JSON.stringify("hello"))).toBe("hello");
+    expect(bfsParsing(JSON.stringify(123))).toBe(123);
+    expect(bfsParsing(JSON.stringify(null))).toBeNull();
+  });
+
+  it("should safely handle objects with repeated references or cycles", () => {
+    const shared = { sharedProp: "value" };
+    const data: any = { a: shared, b: shared };
+    const jsonString = JSON.stringify(data);
+    const result = bfsParsing(jsonString);
+    expect(result).toEqual({
+      a: { sharedProp: "value" },
+      b: { sharedProp: "value" },
+    });
+  });
 });

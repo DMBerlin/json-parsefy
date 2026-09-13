@@ -5,7 +5,7 @@ import {
   warnMissingDependency,
 } from "../decorators/json-flattener.decorator";
 import * as bfsParsingModule from "../utils/bfs-parsing.utils";
-import * as decoratorModule from "../decorators/json-flattener.decorator";
+import * as loaderModule from "./class-transformer-loader.utils";
 
 class TestClass {
   @JSONFlattener()
@@ -109,7 +109,29 @@ describe("JSONFlattener Decorator", () => {
         plainToClass(ErrorTestClass, {
           jsonProperty: '{"valid": "json"}',
         });
-      }).toThrow("{}");
+      }).toThrow("Parsing error");
+
+      mockBfsParsing.mockRestore();
+    });
+
+    it("should handle non-Error thrown objects gracefully", () => {
+      const mockBfsParsing = jest
+        .spyOn(bfsParsingModule, "bfsParsing")
+        .mockImplementation(() => {
+          // eslint-disable-next-line @typescript-eslint/no-throw-literal
+          throw "String parsing error";
+        });
+
+      class StringErrorTestClass {
+        @JSONFlattener()
+        jsonProperty: any;
+      }
+
+      expect(() => {
+        plainToClass(StringErrorTestClass, {
+          jsonProperty: '{"valid": "json"}',
+        });
+      }).toThrow("String parsing error");
 
       mockBfsParsing.mockRestore();
     });
@@ -130,7 +152,7 @@ describe("JSONFlattener Decorator", () => {
         plainToClass(EmptyStringTestClass, {
           jsonProperty: "",
         });
-      }).toThrow("{}");
+      }).toThrow("Empty string error");
 
       mockBfsParsing.mockRestore();
     });
@@ -215,46 +237,39 @@ describe("JSONFlattener Decorator", () => {
       );
     });
 
-    it("should test loadClassTransformer error path", () => {
-      const originalEval = globalThis.eval;
-      globalThis.eval = jest.fn().mockImplementation(() => {
-        throw new Error("Module not found");
-      });
-
-      const result = loadClassTransformer();
-      expect(result).toBeNull();
-      globalThis.eval = originalEval;
-    });
-
     it("should create decorator with no class-transformer", () => {
-      const mockLoadClassTransformer = jest
-        .spyOn(decoratorModule, "loadClassTransformer")
+      const mockLoad = jest
+        .spyOn(loaderModule, "loadClassTransformer")
         .mockReturnValue(null);
       const mockWarn = jest
-        .spyOn(decoratorModule, "warnMissingDependency")
+        .spyOn(loaderModule, "warnMissingDependency")
         .mockImplementation(() => {});
 
       const decorator = JSONFlattener();
       expect(decorator).toBeInstanceOf(Function);
+      expect(mockWarn).toHaveBeenCalledTimes(1);
+      decorator({}, "prop");
 
-      mockLoadClassTransformer.mockRestore();
+      mockLoad.mockRestore();
       mockWarn.mockRestore();
     });
 
     it("should create decorator with incomplete class-transformer", () => {
-      const mockLoadClassTransformer = jest
-        .spyOn(decoratorModule, "loadClassTransformer")
+      const mockLoad = jest
+        .spyOn(loaderModule, "loadClassTransformer")
         .mockReturnValue({
           plainToClass: jest.fn(),
         });
       const mockWarn = jest
-        .spyOn(decoratorModule, "warnMissingDependency")
+        .spyOn(loaderModule, "warnMissingDependency")
         .mockImplementation(() => {});
 
       const decorator = JSONFlattener();
       expect(decorator).toBeInstanceOf(Function);
+      expect(mockWarn).toHaveBeenCalledTimes(1);
+      decorator({}, "prop");
 
-      mockLoadClassTransformer.mockRestore();
+      mockLoad.mockRestore();
       mockWarn.mockRestore();
     });
   });
