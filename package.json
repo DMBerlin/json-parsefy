@@ -1,6 +1,7 @@
 {
   "name": "json-parsefy",
   "version": "1.4.0",
+  "packageManager": "pnpm@9.15.4",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -63,6 +64,13 @@
   "peerDependenciesMeta": {
     "class-transformer": {
       "optional": true
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml": "^3.15.2",
+      "@xmldom/xmldom": "^0.8.15",
+      "baseline-browser-mapping": "^2.11.23"
     }
   },
   "jest": {

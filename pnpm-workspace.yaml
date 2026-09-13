@@ -1,0 +1,7 @@
+packages:
+  - '.'
+
+overrides:
+  js-yaml: ^3.15.2
+  '@xmldom/xmldom': ^0.8.15
+  baseline-browser-mapping: ^2.11.23
