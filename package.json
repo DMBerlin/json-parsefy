@@ -1,6 +1,6 @@
 {
   "name": "json-parsefy",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "packageManager": "pnpm@9.15.4",
   "description": "Correct any json string that has been through a loop of stringify methods to remove unnecessary escaped strings.",
   "main": "dist/index.js",
