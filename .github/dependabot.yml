@@ -61,6 +61,27 @@ updates:
       # Ignore @octokit/plugin-paginate-rest security issue (can't auto-fix major version)
       - dependency-name: "@octokit/plugin-paginate-rest"
         update-types: ["version-update:semver-major"]
+      # Ignore transitive dependencies whose major security updates cannot be auto-resolved
+      - dependency-name: "@babel/core"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "flatted"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "minimatch"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "picomatch"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "brace-expansion"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "browserslist"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "fast-uri"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "js-yaml"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@xmldom/xmldom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "baseline-browser-mapping"
+        update-types: ["version-update:semver-major"]
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
